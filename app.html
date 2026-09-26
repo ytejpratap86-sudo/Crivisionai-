@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="hi" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dashboard — CricVision AI</title>
+<meta name="description" content="CricVision AI player dashboard — aapke analyses ek jagah.">
+<meta name="theme-color" content="#07090a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b110d'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23e2c16a' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23e2c16a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="app-body">
+<a class="skip" href="#main">Content par jaayein</a>
+<header class="header is-scrolled" id="header">
+  <div class="container header__inner">
+    <a href="index.html" class="logo" aria-label="CricVision AI home">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="12.5" stroke="currentColor" stroke-width="2"/><path d="M7.5 9.5c3 2.2 4.6 4.3 4.6 6.5s-1.6 4.3-4.6 6.5M24.5 9.5c-3 2.2-4.6 4.3-4.6 6.5s1.6 4.3 4.6 6.5" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2 2.2"/><circle cx="16" cy="16" r="3.2" fill="var(--color-primary)"/></svg>
+      <span>CricVision<b>AI</b></span>
+    </a>
+    <nav class="nav" aria-label="App">
+      <a href="app.html" data-view-link="dashboard">Dashboard</a>
+      <a href="analysis.html">New analysis</a>
+      <a href="index.html#product">Demo report</a>
+    </nav>
+    <div class="header__actions">
+      <span class="badge badge--demo"><i aria-hidden="true"></i>Demo mode</span>
+      <button class="icon-btn" data-theme-toggle aria-label="Light mode par switch karein"></button>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="app-main">
+  <!-- DASHBOARD -->
+  <section class="view" id="view-dashboard" data-view="dashboard" aria-labelledby="dTitle" hidden>
+    <div class="container">
+      <div class="demo-banner" role="note"><b>Demo mode</b> — neeche ka saara data sample hai. Aapki asli history pehle real analysis ke baad banegi.</div>
+      <div class="dash-head">
+        <div><p class="label">Player dashboard</p><h1 id="dTitle">Namaste, <span id="pName">Player</span> 👋</h1></div>
+        <a href="analysis.html" class="btn btn--primary">+ New Analysis</a>
+      </div>
+      <div class="stat-grid">
+        <div class="stat"><span>Overall Technique</span><strong data-count="78">0</strong><small>sample</small></div>
+        <div class="stat"><span>Batting</span><strong data-count="81">0</strong><small>sample</small></div>
+        <div class="stat"><span>Footwork</span><strong data-count="74">0</strong><small>sample</small></div>
+        <div class="stat"><span>Balance</span><strong data-count="79">0</strong><small>sample</small></div>
+      </div>
+      <div class="dash-grid">
+        <article class="panel">
+          <div class="chart-head"><h2 class="panel__h">Progress</h2><span class="badge badge--demo badge--xs">Sample data</span></div>
+          <svg class="chart" viewBox="0 0 320 130" role="img" aria-label="Sample progress chart: 68, 72, 76, 81">
+            <g class="chart__grid"><path d="M0 20H320M0 60H320M0 100H320"/></g>
+            <path class="chart__line" d="M20 96 L113 80 L207 64 L300 44"/>
+            <g class="chart__pts"><circle cx="20" cy="96" r="4"/><circle cx="113" cy="80" r="4"/><circle cx="207" cy="64" r="4"/><circle cx="300" cy="44" r="5"/></g>
+            <g class="chart__lbl"><text x="20" y="86">68</text><text x="113" y="70">72</text><text x="207" y="54">76</text><text x="300" y="32">81</text></g>
+            <g class="chart__x"><text x="20" y="124">S1</text><text x="113" y="124">S2</text><text x="207" y="124">S3</text><text x="300" y="124">S4</text></g>
+          </svg>
+        </article>
+        <article class="panel">
+          <h2 class="panel__h">Recent analyses</h2>
+          <ul class="recent" role="list">
+            <li><a href="index.html#product"><span class="recent__ic" aria-hidden="true">CD</span><span><b>Cover Drive</b><small>Batting · sample</small></span><strong>81</strong></a></li>
+            <li><a href="index.html#product"><span class="recent__ic" aria-hidden="true">PS</span><span><b>Pull Shot</b><small>Batting · sample</small></span><strong>74</strong></a></li>
+            <li><a href="index.html#product"><span class="recent__ic" aria-hidden="true">SD</span><span><b>Straight Drive</b><small>Batting · sample</small></span><strong>77</strong></a></li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<nav class="bottom-nav" aria-label="App navigation">
+  <a href="app.html" data-view-link="dashboard"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Home</a>
+  <a href="analysis.html" class="bottom-nav__cta"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Analyse</a>
+  <a href="index.html#product"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>Report</a>
+</nav>
+
+<script src="common.js"></script>
+<script src="api.js"></script>
+<script src="app-page.js"></script>
+</body>
+</html>

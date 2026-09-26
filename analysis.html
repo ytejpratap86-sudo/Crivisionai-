@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="hi" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Analysis — CricVision AI</title>
+<meta name="description" content="Batting ya bowling video upload karein aur AI se apni technique samjhein.">
+<meta name="theme-color" content="#07090a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b110d'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23e2c16a' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23e2c16a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="app-body">
+<a class="skip" href="#main">Content par jaayein</a>
+<header class="header is-scrolled" id="header">
+  <div class="container header__inner">
+    <a href="index.html" class="logo" aria-label="CricVision AI home">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="12.5" stroke="currentColor" stroke-width="2"/><path d="M7.5 9.5c3 2.2 4.6 4.3 4.6 6.5s-1.6 4.3-4.6 6.5M24.5 9.5c-3 2.2-4.6 4.3-4.6 6.5s1.6 4.3 4.6 6.5" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2 2.2"/><circle cx="16" cy="16" r="3.2" fill="var(--color-primary)"/></svg>
+      <span>CricVision<b>AI</b></span>
+    </a>
+    <nav class="nav" aria-label="App">
+      <a href="app.html">Dashboard</a>
+      <a href="analysis.html" aria-current="page" data-new>New analysis</a>
+      <a href="index.html#product">Demo report</a>
+    </nav>
+    <div class="header__actions">
+      <span class="badge badge--demo" id="modeBadge" hidden><i aria-hidden="true"></i>Demo mode</span>
+      <button class="btn btn--ghost btn--sm" id="logoutBtn" type="button" hidden>Logout</button>
+      <button class="icon-btn" data-theme-toggle aria-label="Light mode par switch karein"></button>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="app-main">
+  <div class="container container--narrow">
+    <div class="demo-banner" id="demoBanner" role="note" hidden><b>Demo mode</b> — upload aur processing asli hain, lekin report ek fixed <b>Demo analysis</b> sample hai. Wo aapke video se measure nahi hoti.</div>
+    <div class="alert" id="globalErr" role="alert" hidden></div>
+
+    <!-- BOOT -->
+    <section class="view" data-view="boot" aria-busy="true"><div class="skeleton-card" aria-label="Load ho raha hai"></div></section>
+
+    <!-- AUTH -->
+    <section class="view" data-view="auth" aria-labelledby="aTitle" hidden>
+      <p class="label">Account</p>
+      <h1 id="aTitle" class="view__title">Analysis ke liye login karein</h1>
+      <div class="auth panel">
+        <div class="seg auth__tabs" role="tablist" aria-label="Login ya signup">
+          <button type="button" role="tab" aria-selected="true" data-auth-tab="signup">Naya account</button>
+          <button type="button" role="tab" aria-selected="false" data-auth-tab="login">Login</button>
+        </div>
+        <form id="authForm" class="auth__form" novalidate>
+          <label class="ffield" data-only="signup"><span>Naam</span><input name="name" autocomplete="name" maxlength="60" required></label>
+          <label class="ffield"><span>Email</span><input name="email" type="email" autocomplete="email" inputmode="email" required></label>
+          <label class="ffield"><span>Password</span><input name="password" type="password" autocomplete="new-password" minlength="8" required><small data-only="signup">Kam se kam 8 characters</small></label>
+          <p class="field__err" id="authErr" aria-live="polite"></p>
+          <button class="btn btn--primary btn--lg btn--block" type="submit" id="authBtn">Account banayein <span aria-hidden="true">→</span></button>
+          <p class="flow__privacy">Aapke videos aur reports sirf aapke account se dikhte hain.</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- UPLOAD FLOW -->
+    <section class="view" data-view="upload" aria-labelledby="nTitle" hidden>
+      <p class="label">New analysis</p>
+      <h1 id="nTitle" class="view__title view__title--tight">Apna game analyse karein.</h1>
+      <p class="view__sub">Batting ya bowling video upload karein aur AI se apni technique samjhein.</p>
+
+      <form class="flow" id="flow" novalidate>
+        <fieldset class="flow__step">
+          <legend><span class="flow__n">1</span>Kya analyse karna hai?</legend>
+          <div class="choice choice--2 choice--big">
+            <label><input type="radio" name="kind" value="batting" checked><span><i aria-hidden="true">🏏</i>Batting</span></label>
+            <label><input type="radio" name="kind" value="bowling"><span><i aria-hidden="true">🎯</i>Bowling</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="flow__step">
+          <legend><span class="flow__n">2</span>Video upload karein</legend>
+          <label class="drop" id="drop" for="file">
+            <input type="file" id="file" name="file" accept="video/mp4,video/quicktime,video/webm,.mp4,.mov,.webm,.m4v" aria-describedby="fileHelp fileErr">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 15V4M7 9l5-5 5 5M4 20h16"/></svg>
+            <span class="drop__main"><b>Video chunein</b> <span class="drop__desk">ya yahan drag &amp; drop karein</span></span>
+            <span class="drop__help" id="fileHelp">MP4 / MOV / WebM · <span id="limitMb">200</span> MB tak · 5–20 second · poora body frame mein</span>
+          </label>
+          <p class="field__err" id="fileErr" aria-live="polite"></p>
+          <div class="file-card file-card--up" id="fileCard" hidden>
+            <span class="file-card__ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="14" height="14" rx="2"/><path d="M17 10l4-2v8l-4-2"/></svg></span>
+            <div class="file-card__meta">
+              <b id="fName">—</b><small id="fInfo">—</small>
+              <div class="progress" role="progressbar" aria-label="Upload progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="upBar"><i></i></div>
+              <p class="file-card__status" id="upStatus" role="status" aria-live="polite"></p>
+              <div class="file-card__actions">
+                <button type="button" class="btn btn--ghost btn--sm" id="upCancel" hidden>Cancel</button>
+                <button type="button" class="btn btn--primary btn--sm" id="upRetry" hidden>Dobara try karein</button>
+              </div>
+            </div>
+            <button type="button" class="icon-btn" id="fRemove" aria-label="Video hataayein"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+          </div>
+        </fieldset>
+
+        <fieldset class="flow__step" id="previewStep" hidden>
+          <legend><span class="flow__n">3</span>Video preview</legend>
+          <div class="vpreview">
+            <video id="preview" controls playsinline preload="metadata" aria-label="Aapke video ka preview"></video>
+          </div>
+          <div class="vpreview__bar">
+            <p class="vpreview__meta" id="pvMeta">—</p>
+            <button type="button" class="btn btn--ghost btn--sm" id="changeVideo">Video change karein</button>
+          </div>
+        </fieldset>
+
+        <fieldset class="flow__step">
+          <legend><span class="flow__n" data-n-angle>3</span>Camera angle kya hai?</legend>
+          <div class="choice choice--4">
+            <label><input type="radio" name="angle" value="side"><span>Side</span></label>
+            <label><input type="radio" name="angle" value="front"><span>Front</span></label>
+            <label><input type="radio" name="angle" value="behind"><span>Behind</span></label>
+            <label><input type="radio" name="angle" value="auto" checked><span>Auto detect</span></label>
+          </div>
+          <p class="flow__help">Side angle batting technique ke analysis ke liye recommended hai. Bowling ya kuch shots ke liye front/behind angle bhi kaam ka ho sakta hai.</p>
+        </fieldset>
+
+        <fieldset class="flow__step">
+          <legend><span class="flow__n" data-n-profile>4</span>Player profile</legend>
+          <div class="grid-2">
+            <label class="ffield"><span id="handLbl">Batting hand</span>
+              <select name="hand"><option value="right">Right-handed</option><option value="left">Left-handed</option></select></label>
+            <label class="ffield"><span>Level</span>
+              <select name="level"><option value="beginner">Beginner</option><option value="club" selected>Club / Academy</option><option value="district">District / State</option></select></label>
+          </div>
+          <dl class="summary" aria-label="Analysis settings">
+            <div><dt>Analysis</dt><dd id="sType">Batting</dd></div>
+            <div><dt>Camera angle</dt><dd id="sAngle">Auto detect</dd></div>
+            <div><dt>Video duration</dt><dd id="sDur">—</dd></div>
+            <div><dt>Player</dt><dd id="sPlayer">—</dd></div>
+          </dl>
+        </fieldset>
+
+        <div class="flow__submit">
+          <button class="btn btn--primary btn--lg btn--block" type="submit" id="startBtn" disabled>AI analysis shuru karein <span aria-hidden="true">→</span></button>
+          <p class="flow__privacy" id="startHint">Pehle video upload poora hone dein.</p>
+        </div>
+      </form>
+    </section>
+
+    <!-- PROCESSING -->
+    <section class="view" data-view="processing" aria-labelledby="pTitle" hidden>
+      <p class="label">Analysis</p>
+      <div class="processing" id="processing" tabindex="-1">
+        <div class="processing__head">
+          <div class="processing__spinner" aria-hidden="true"></div>
+          <div><h1 id="pTitle" class="processing__title">Analysis chal raha hai</h1><p id="pSub" role="status" aria-live="polite">Server se status le rahe hain...</p></div>
+        </div>
+        <div class="progress progress--lg" role="progressbar" aria-label="Analysis progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="pBar"><i></i></div>
+        <p class="processing__pct"><span id="pPct">0</span>% · <span id="pMode"></span></p>
+        <ol class="stages" id="stages" role="list">
+          <li data-s="0"><span class="st"></span>Video received</li>
+          <li data-s="1"><span class="st"></span>Video prepared</li>
+          <li data-s="2"><span class="st"></span>Player detection</li>
+          <li data-s="3"><span class="st"></span>Body movement analysis</li>
+          <li data-s="4"><span class="st"></span>Technique analysis</li>
+          <li data-s="5"><span class="st"></span>Coaching report</li>
+        </ol>
+        <div class="notice" id="pNotice" hidden>
+          <h3 id="pNoticeH">Analysis poora nahi ho paya</h3>
+          <p id="pNoticeP"></p>
+          <div class="notice__ctas">
+            <a class="btn btn--primary" href="analysis.html" data-new>Dusra video try karein</a>
+            <a class="btn btn--ghost" href="index.html#product">Demo analysis dekhein</a>
+            <button type="button" class="btn btn--ghost" id="pRetryPoll" hidden>Status dobara check karein</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REPORT -->
+    <section class="view" data-view="report" aria-labelledby="rTitle" hidden>
+      <div class="demo-banner demo-banner--strong" id="rDemo" role="note" hidden><b>Demo analysis</b> — ye score aur issues ek fixed sample hain, aapke video se measure nahi kiye gaye. Real AI analysis engine connect hone ke baad yahan asli measurements dikhenge.</div>
+      <p class="label" id="rLabel">Report</p>
+      <div class="report-page">
+        <article class="panel report-page__main">
+          <div class="report__top">
+            <div class="ring" id="rRing" style="--p:0"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52"/><circle class="ring__val" cx="60" cy="60" r="52" pathLength="100"/></svg><div><strong id="rScore">—</strong><small>/100</small></div></div>
+            <div><p class="label" id="rType">Batting</p><h1 id="rTitle" class="report-page__title">—</h1><p class="report-page__meta" id="rMeta">—</p></div>
+          </div>
+          <h2 class="report__h">Kya sudhaarein</h2>
+          <div class="issues" id="rIssues"></div>
+        </article>
+        <aside class="panel report-page__side">
+          <h2 class="panel__h">Aapka video</h2>
+          <div class="vpreview vpreview--sm"><video id="rVideo" controls playsinline preload="metadata" aria-label="Analyse kiya gaya video"></video></div>
+          <dl class="summary summary--1" id="rFacts"></dl>
+          <div class="report-page__ctas">
+            <a class="btn btn--primary btn--block" href="analysis.html" data-new>+ New Analysis</a>
+            <a class="btn btn--ghost btn--block" href="app.html">Dashboard</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </div>
+</main>
+
+<nav class="bottom-nav" aria-label="App navigation">
+  <a href="app.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Home</a>
+  <a href="analysis.html" class="bottom-nav__cta" aria-current="page" data-new><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Analyse</a>
+  <a href="index.html#product"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>Report</a>
+</nav>
+
+<script src="common.js"></script>
+<script src="api.js"></script>
+<script src="analysis.js"></script>
+</body>
+</html>
